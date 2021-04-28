@@ -1,13 +1,9 @@
-from matplotlib import cm
-import tensorflow as tf
-import tensorflow_datasets as tfds
 from tensorflow import keras
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-classnames = ['airplane', 'automobile', 'bird', 'cat',
-            'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+from constants import classnames
 
 class Image():
     """
@@ -15,14 +11,15 @@ class Image():
     Specifically, we'll use CIFAR10
     """
     
-    def __init__(self, gray=False):
+    def __init__(self, gray=False, showSamples=False):
         """
         Start getting the image by instantiate an Image object
         """
-        self.getImages()
+        self.retrieveImages()
         if (gray):
             self.rgb2grayscale()
-        self.showSamples()
+        if (showSamples):
+            self.showSamples()
 
     def plotSample(self, index, gray=True):
         """
@@ -34,8 +31,9 @@ class Image():
             plt.imshow(self.trainImages[index])
         plt.colorbar()
         plt.grid(False)
+        plt.title(classnames[self.trainLabels[index]])
 
-    def getImages(self):
+    def retrieveImages(self):
         """
         Retrieve dataset of images & display a summary
         """
@@ -71,8 +69,12 @@ class Image():
         self.trainImages = np.mean(self.trainImages, axis=3) / 255
         self.testImages = np.mean(self.testImages, axis=3) / 255
 
+        self.sizeImage = self.trainImages[0].shape
+
         print('Dimensions of train image set: {0}'.format(self.trainImages.shape))
         print('Dimensions of test image set: {0}'.format(self.testImages.shape))
+
+        print('Image size: {0}'.format(self.sizeImage))
 
         print('=== Transform to grayscale===')
         plt.subplot(1, 2, 2)
@@ -84,16 +86,35 @@ class Image():
         Display 25 subplots of the train image set
         """
         print('Showing sample of images...')
-        plt.figure(figsize=(10, 10))
+        plt.figure(figsize=(10, 9))
         for i in range(25):
             plt.subplot(5, 5, i + 1)
+            plt.xticks([])
+            plt.yticks([])
             self.plotSample(i)
-            plt.title(classnames[self.trainLabels[i]])
         plt.show()
+
+    def getTrainSet(self):
+        """
+        Return train image & label set
+        """
+        return self.trainImages, self.trainLabels
+
+    def getTestSet(self):
+        """
+        Return test image & label set
+        """
+        return self.testImages, self.testLabels
+
+    def getSizeImage(self):
+        """
+        Return size of an image
+        """
+        return self.sizeImage
 
 # model = keras.Sequential()
 # model.add(keras.layers.Flatten(input_shape=size))
 # print(model.output_shape)
 
 if __name__ == "__main__":
-    image = Image()
+    image = Image(showSamples=True)
