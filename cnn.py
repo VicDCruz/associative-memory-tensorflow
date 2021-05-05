@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from image import Image
 from constants import classnames, folder
 
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+# print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 # tf.config.threading.set_inter_op_parallelism_threads(6)
 # tf.config.threading.set_intra_op_parallelism_threads(6)
 # tf.config.set_soft_device_placement(True)
@@ -33,17 +33,28 @@ class Covnet():
         # CNN Layers
         self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same',
                                            input_shape=self.image.getSizeImage()))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.MaxPool2D((2, 2)))
+        self.mode.add(keras.layers.Dropout(0.20))
         self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.MaxPool2D((2, 2)))
+        self.mode.add(keras.layers.Dropout(0.30))
         self.model.add(keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.BatchNormalization())
         self.model.add(keras.layers.MaxPool2D((2, 2)))
+        self.mode.add(keras.layers.Dropout(0.40))
         # Dense Layers
         self.model.add(keras.layers.Flatten())
         self.model.add(keras.layers.Dense(128, activation='relu'))
+        self.model.add(keras.layers.BatchNormalization())
+        self.model.add(keras.layers.Dropout(0.5))
         self.model.add(keras.layers.Dense(
             len(classnames), activation='softmax'))
 
