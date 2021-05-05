@@ -26,12 +26,15 @@ class Covnet():
         # Basic tensorflow layers for grayscale images
         self.model = keras.Sequential()
         # CNN Layers
-        self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu',
+        self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same',
                                            input_shape=self.image.getSizeImage()))
-        self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
+        self.model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'))
         self.model.add(keras.layers.MaxPool2D((2, 2)))
-        self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu'))
-        self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu'))
+        self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.MaxPool2D((2, 2)))
+        self.model.add(keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
+        self.model.add(keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
         self.model.add(keras.layers.MaxPool2D((2, 2)))
         # Dense Layers
         self.model.add(keras.layers.Flatten())
