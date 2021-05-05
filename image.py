@@ -1,14 +1,9 @@
 from tensorflow import keras
-import tensorflow as tf
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 from constants import classnames, folder
-
-tf.config.threading.set_inter_op_parallelism_threads(6)
-tf.config.threading.set_intra_op_parallelism_threads(6)
-tf.config.set_soft_device_placement(True)
 
 
 class Image():
