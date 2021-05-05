@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from image import Image
 from constants import classnames, folder
 
+tf.config.threading.set_inter_op_parallelism_threads(6)
+
 
 class Covnet():
     """
